@@ -12,7 +12,7 @@ export default function BookingSection() {
     return () => clearInterval(interval);
   }, []);
 
-  // Noise texture generation for the arc
+  // High-contrast black/white noise texture generation
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -21,16 +21,18 @@ export default function BookingSection() {
     const width = canvas.width;
     const height = canvas.height;
     
-    // Create subtle noise
+    // Create high-contrast black/white noise
     const imageData = ctx.createImageData(width, height);
     const data = imageData.data;
     
     for (let i = 0; i < data.length; i += 4) {
-      const noise = Math.random() * 25;
-      data[i] = noise;
-      data[i + 1] = noise;
-      data[i + 2] = noise;
-      data[i + 3] = 15; // Very subtle opacity
+      // Pure black or white noise for high contrast
+      const isWhite = Math.random() > 0.5;
+      const value = isWhite ? 255 : 0;
+      data[i] = value;     // R
+      data[i + 1] = value; // G
+      data[i + 2] = value; // B
+      data[i + 3] = 255;   // Full opacity (we control with CSS)
     }
     
     ctx.putImageData(imageData, 0, 0);
@@ -41,117 +43,114 @@ export default function BookingSection() {
   return (
     <section id="booking" className="py-24 md:py-32 px-6 relative overflow-hidden bg-black min-h-[600px] flex items-center">
       
-      {/* Inverted Arc Background */}
+      {/* Inverted Arc Background with smooth gradient */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Main arc shape - inverted (curves down) */}
         <svg 
           className="absolute w-full h-full" 
-          viewBox="0 0 1440 600" 
+          viewBox="0 0 1440 700" 
           preserveAspectRatio="xMidYMid slice"
           style={{ minWidth: '100%', minHeight: '100%' }}
         >
           <defs>
-            {/* Main gradient for the arc */}
-            <linearGradient id="arcGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#92CEFB" stopOpacity="0.4"/>
-              <stop offset="40%" stopColor="#5BA3D9" stopOpacity="0.25"/>
-              <stop offset="100%" stopColor="#2A5A7A" stopOpacity="0.15"/>
+            {/* Main gradient: #FFFFFF → #003B62 → #0A2336 → #000000 */}
+            <linearGradient id="arcGradientMain" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.15"/>
+              <stop offset="25%" stopColor="#FFFFFF" stopOpacity="0.08"/>
+              <stop offset="40%" stopColor="#003B62" stopOpacity="0.4"/>
+              <stop offset="60%" stopColor="#003B62" stopOpacity="0.3"/>
+              <stop offset="75%" stopColor="#0A2336" stopOpacity="0.5"/>
+              <stop offset="90%" stopColor="#0A2336" stopOpacity="0.3"/>
+              <stop offset="100%" stopColor="#000000" stopOpacity="1"/>
             </linearGradient>
             
-            {/* Chromatic aberration - Red channel */}
-            <linearGradient id="arcGradientRed" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#FFB5B5" stopOpacity="0.08"/>
-              <stop offset="50%" stopColor="#FF9999" stopOpacity="0.04"/>
+            {/* Seamless blend gradient for smooth transition */}
+            <linearGradient id="arcBlendGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.05"/>
+              <stop offset="30%" stopColor="#003B62" stopOpacity="0.2"/>
+              <stop offset="60%" stopColor="#0A2336" stopOpacity="0.35"/>
+              <stop offset="85%" stopColor="#000000" stopOpacity="0.8"/>
+              <stop offset="100%" stopColor="#000000" stopOpacity="1"/>
+            </linearGradient>
+            
+            {/* Radial glow for the top of arc */}
+            <radialGradient id="arcTopGlow" cx="50%" cy="0%" r="60%" fx="50%" fy="0%">
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.12"/>
+              <stop offset="40%" stopColor="#003B62" stopOpacity="0.08"/>
               <stop offset="100%" stopColor="transparent" stopOpacity="0"/>
-            </linearGradient>
+            </radialGradient>
             
-            {/* Chromatic aberration - Blue channel */}
-            <linearGradient id="arcGradientBlue" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#B5D4FF" stopOpacity="0.08"/>
-              <stop offset="50%" stopColor="#99C4FF" stopOpacity="0.04"/>
-              <stop offset="100%" stopColor="transparent" stopOpacity="0"/>
-            </linearGradient>
-            
-            {/* Blur filter for the arc */}
-            <filter id="arcBlur" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="30"/>
+            {/* Blur filter for soft edges */}
+            <filter id="arcSoftBlur" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="25"/>
             </filter>
             
-            {/* Subtle blur for glow */}
-            <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="40"/>
+            {/* Very soft glow filter */}
+            <filter id="ultraSoftGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="50"/>
             </filter>
           </defs>
           
-          {/* Soft glow layer behind arc */}
+          {/* Background soft glow layer */}
           <ellipse 
             cx="720" 
-            cy="700" 
-            rx="900" 
-            ry="350"
-            fill="url(#arcGradient)"
-            filter="url(#softGlow)"
-            opacity="0.5"
+            cy="500" 
+            rx="1000" 
+            ry="400"
+            fill="url(#arcTopGlow)"
+            filter="url(#ultraSoftGlow)"
           />
           
-          {/* Chromatic aberration - Red offset (left) */}
+          {/* Main arc shape - shallow inverted curve */}
           <path
-            d="M -100 600 Q 720 280 1540 600 L 1540 700 L -100 700 Z"
-            fill="url(#arcGradientRed)"
-            transform="translate(-3, 0)"
-            opacity="0.6"
+            d="M -100 700 L -100 450 Q 720 200 1540 450 L 1540 700 Z"
+            fill="url(#arcGradientMain)"
           />
           
-          {/* Chromatic aberration - Blue offset (right) */}
+          {/* Blended overlay for seamless transition */}
           <path
-            d="M -100 600 Q 720 280 1540 600 L 1540 700 L -100 700 Z"
-            fill="url(#arcGradientBlue)"
-            transform="translate(3, 0)"
-            opacity="0.6"
+            d="M -100 700 L -100 480 Q 720 250 1540 480 L 1540 700 Z"
+            fill="url(#arcBlendGradient)"
+            filter="url(#arcSoftBlur)"
+            opacity="0.7"
           />
           
-          {/* Main arc - shallow inverted curve */}
+          {/* Top edge subtle highlight */}
           <path
-            d="M -100 600 Q 720 280 1540 600 L 1540 700 L -100 700 Z"
-            fill="url(#arcGradient)"
-          />
-          
-          {/* Blurred overlay for depth */}
-          <path
-            d="M -100 600 Q 720 320 1540 600 L 1540 700 L -100 700 Z"
-            fill="url(#arcGradient)"
-            filter="url(#arcBlur)"
-            opacity="0.4"
-          />
-          
-          {/* Top edge highlight */}
-          <path
-            d="M 0 580 Q 720 300 1440 580"
+            d="M 0 450 Q 720 210 1440 450"
             fill="none"
-            stroke="rgba(146, 206, 251, 0.3)"
+            stroke="rgba(255, 255, 255, 0.08)"
+            strokeWidth="1.5"
+          />
+          
+          {/* Secondary highlight for depth */}
+          <path
+            d="M 100 460 Q 720 230 1340 460"
+            fill="none"
+            stroke="rgba(0, 59, 98, 0.15)"
             strokeWidth="1"
           />
         </svg>
         
-        {/* Noise texture overlay */}
+        {/* High-contrast black/white noise texture overlay */}
         <canvas 
           ref={canvasRef}
-          width={200}
-          height={200}
-          className="absolute inset-0 w-full h-full opacity-30 mix-blend-overlay pointer-events-none"
+          width={150}
+          height={150}
+          className="absolute inset-0 w-full h-full pointer-events-none"
           style={{ 
             imageRendering: 'pixelated',
-            transform: 'scale(4)',
-            transformOrigin: 'center center'
+            transform: 'scale(5)',
+            transformOrigin: 'center center',
+            mixBlendMode: 'overlay',
+            opacity: 0.28
           }}
         />
         
-        {/* Additional soft blur layer */}
+        {/* Bottom fade to pure black for footer merge */}
         <div 
-          className="absolute bottom-0 left-0 right-0 h-[70%]"
+          className="absolute bottom-0 left-0 right-0 h-32"
           style={{
-            background: 'linear-gradient(to top, rgba(146, 206, 251, 0.08) 0%, transparent 100%)',
-            filter: 'blur(60px)'
+            background: 'linear-gradient(to bottom, transparent 0%, #000000 100%)'
           }}
         />
       </div>
@@ -180,9 +179,9 @@ export default function BookingSection() {
             <div 
               className="absolute inset-0 rounded-full transition-all duration-700"
               style={{
-                background: `radial-gradient(ellipse at center, rgba(146, 206, 251, ${0.15 + pulse * 0.1}) 0%, transparent 70%)`,
-                transform: 'scale(2)',
-                filter: 'blur(20px)'
+                background: `radial-gradient(ellipse at center, rgba(0, 59, 98, ${0.2 + pulse * 0.1}) 0%, transparent 70%)`,
+                transform: 'scale(2.5)',
+                filter: 'blur(30px)'
               }}
             />
             
@@ -195,13 +194,13 @@ export default function BookingSection() {
                 background: `linear-gradient(135deg, 
                   rgba(255, 255, 255, 0.12) 0%, 
                   rgba(255, 255, 255, 0.06) 50%,
-                  rgba(146, 206, 251, 0.08) 100%
+                  rgba(0, 59, 98, 0.15) 100%
                 )`,
                 backdropFilter: 'blur(24px)',
                 WebkitBackdropFilter: 'blur(24px)',
                 border: '1px solid rgba(255, 255, 255, 0.18)',
                 boxShadow: `
-                  0 4px 24px rgba(0, 0, 0, 0.15),
+                  0 4px 24px rgba(0, 0, 0, 0.2),
                   inset 0 1px 0 rgba(255, 255, 255, 0.25),
                   inset 0 -1px 0 rgba(255, 255, 255, 0.05)
                 `,
@@ -252,25 +251,43 @@ export default function BookingSection() {
             <div 
               className="absolute inset-0 rounded-full pointer-events-none transition-all duration-500"
               style={{
-                border: '1px solid rgba(146, 206, 251, 0.2)',
+                border: '1px solid rgba(0, 59, 98, 0.3)',
                 transform: `scale(${isHovered ? 1.15 : 1.08})`,
                 opacity: isHovered ? 0.8 : 0
               }}
             />
           </div>
           
-          {/* Trust indicators - minimal and elegant */}
-          <div className="mt-12 flex items-center justify-center gap-8 text-sm text-white/40">
-            <span className="flex items-center gap-2">
-              <div className="w-1 h-1 rounded-full bg-[#92CEFB]"/>
+          {/* Trust indicators - White text with green dots */}
+          <div className="mt-12 flex items-center justify-center gap-6 md:gap-10">
+            <span className="flex items-center gap-2 text-sm md:text-base text-white font-light">
+              <div 
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ 
+                  backgroundColor: '#4ade80',
+                  boxShadow: '0 0 6px rgba(74, 222, 128, 0.5)'
+                }}
+              />
               No commitment
             </span>
-            <span className="flex items-center gap-2">
-              <div className="w-1 h-1 rounded-full bg-[#92CEFB]"/>
+            <span className="flex items-center gap-2 text-sm md:text-base text-white font-light">
+              <div 
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ 
+                  backgroundColor: '#4ade80',
+                  boxShadow: '0 0 6px rgba(74, 222, 128, 0.5)'
+                }}
+              />
               15 min call
             </span>
-            <span className="flex items-center gap-2">
-              <div className="w-1 h-1 rounded-full bg-[#92CEFB]"/>
+            <span className="flex items-center gap-2 text-sm md:text-base text-white font-light">
+              <div 
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ 
+                  backgroundColor: '#4ade80',
+                  boxShadow: '0 0 6px rgba(74, 222, 128, 0.5)'
+                }}
+              />
               100% free
             </span>
           </div>
