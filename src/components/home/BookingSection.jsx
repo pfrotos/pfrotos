@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function BookingSection() {
   const [animationFrame, setAnimationFrame] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const noiseCanvasRef = useRef(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -12,42 +11,15 @@ export default function BookingSection() {
     return () => clearInterval(interval);
   }, []);
 
-  // Generate high-contrast black and white noise texture
-  useEffect(() => {
-    const canvas = noiseCanvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    const width = canvas.width;
-    const height = canvas.height;
-    
-    const imageData = ctx.createImageData(width, height);
-    const data = imageData.data;
-    
-    // Create high-contrast black/white noise - pure B&W speckles
-    for (let i = 0; i < data.length; i += 4) {
-      // Random threshold for black or white
-      const isWhite = Math.random() > 0.5;
-      const value = isWhite ? 255 : 0;
-      
-      data[i] = value;     // R
-      data[i + 1] = value; // G
-      data[i + 2] = value; // B
-      data[i + 3] = 255;   // Full alpha
-    }
-    
-    ctx.putImageData(imageData, 0, 0);
-  }, []);
-
   const pulse = (Math.sin(animationFrame * 0.04) + 1) / 2;
 
   return (
     <section id="booking" className="py-24 md:py-32 px-6 relative overflow-hidden bg-black min-h-[600px] flex items-center">
       
-      {/* Arc Background Container */}
+      {/* Clean Gradient Arc Background */}
       <div className="absolute inset-0 overflow-hidden">
         
-        {/* Gradient Arc Shape */}
+        {/* Gradient Arc Container */}
         <div 
           className="absolute left-1/2 -translate-x-1/2 bottom-0"
           style={{
@@ -56,110 +28,150 @@ export default function BookingSection() {
             maxWidth: '2400px'
           }}
         >
-          {/* Main Arc with Seamless Gradient */}
+          {/* Clean Smooth Gradient Arc */}
           <svg 
             className="absolute inset-0 w-full h-full"
             viewBox="0 0 1440 700" 
             preserveAspectRatio="none"
           >
             <defs>
-              {/* Seamless gradient: dark blue → black */}
-              <linearGradient id="seamlessArcGradient" x1="50%" y1="0%" x2="50%" y2="100%">
-                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.08"/>
-                <stop offset="8%" stopColor="#1a3a5c" stopOpacity="0.15"/>
-                <stop offset="20%" stopColor="#0d2840" stopOpacity="0.35"/>
-                <stop offset="35%" stopColor="#003B62" stopOpacity="0.45"/>
-                <stop offset="50%" stopColor="#0A2336" stopOpacity="0.55"/>
-                <stop offset="65%" stopColor="#061a2a" stopOpacity="0.7"/>
-                <stop offset="80%" stopColor="#030d14" stopOpacity="0.85"/>
-                <stop offset="92%" stopColor="#010509" stopOpacity="0.95"/>
+              {/* Ultra-smooth seamless gradient */}
+              <linearGradient id="smoothArcGradient" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.06"/>
+                <stop offset="5%" stopColor="#e8f4fc" stopOpacity="0.05"/>
+                <stop offset="12%" stopColor="#b8d9f0" stopOpacity="0.08"/>
+                <stop offset="20%" stopColor="#5a9bc9" stopOpacity="0.12"/>
+                <stop offset="28%" stopColor="#2d7ab8" stopOpacity="0.18"/>
+                <stop offset="36%" stopColor="#1a5a8a" stopOpacity="0.25"/>
+                <stop offset="44%" stopColor="#0d4a78" stopOpacity="0.32"/>
+                <stop offset="52%" stopColor="#003B62" stopOpacity="0.40"/>
+                <stop offset="60%" stopColor="#0A2336" stopOpacity="0.50"/>
+                <stop offset="68%" stopColor="#081c2c" stopOpacity="0.60"/>
+                <stop offset="76%" stopColor="#051520" stopOpacity="0.72"/>
+                <stop offset="84%" stopColor="#030e16" stopOpacity="0.84"/>
+                <stop offset="92%" stopColor="#01070a" stopOpacity="0.94"/>
                 <stop offset="100%" stopColor="#000000" stopOpacity="1"/>
               </linearGradient>
               
-              {/* Soft horizontal gradient for edge blending */}
-              <linearGradient id="horizontalFade" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#000000" stopOpacity="0.3"/>
-                <stop offset="15%" stopColor="#000000" stopOpacity="0"/>
-                <stop offset="85%" stopColor="#000000" stopOpacity="0"/>
-                <stop offset="100%" stopColor="#000000" stopOpacity="0.3"/>
+              {/* Soft horizontal edge fade */}
+              <linearGradient id="edgeFade" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#000000" stopOpacity="0.4"/>
+                <stop offset="10%" stopColor="#000000" stopOpacity="0"/>
+                <stop offset="90%" stopColor="#000000" stopOpacity="0"/>
+                <stop offset="100%" stopColor="#000000" stopOpacity="0.4"/>
               </linearGradient>
               
-              {/* Radial glow at top of arc */}
-              <radialGradient id="topGlow" cx="50%" cy="0%" r="50%">
-                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.06"/>
-                <stop offset="50%" stopColor="#003B62" stopOpacity="0.03"/>
+              {/* Subtle top glow */}
+              <radialGradient id="topHighlight" cx="50%" cy="0%" r="60%">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.04"/>
+                <stop offset="60%" stopColor="#003B62" stopOpacity="0.02"/>
                 <stop offset="100%" stopColor="transparent" stopOpacity="0"/>
               </radialGradient>
             </defs>
             
-            {/* Subtle top glow */}
+            {/* Soft top glow */}
             <ellipse 
               cx="720" 
-              cy="150" 
-              rx="600" 
-              ry="200"
-              fill="url(#topGlow)"
+              cy="180" 
+              rx="700" 
+              ry="250"
+              fill="url(#topHighlight)"
             />
             
-            {/* Main arc path - smooth inverted curve */}
+            {/* Main arc - smooth curve */}
             <path
               d="M -200 700 
-                 L -200 420 
-                 C -200 420, 200 180, 720 180 
-                 C 1240 180, 1640 420, 1640 420 
+                 L -200 400 
+                 C -200 400, 200 160, 720 160 
+                 C 1240 160, 1640 400, 1640 400 
                  L 1640 700 
                  Z"
-              fill="url(#seamlessArcGradient)"
+              fill="url(#smoothArcGradient)"
             />
             
-            {/* Horizontal edge fade */}
+            {/* Edge fade overlay */}
             <path
               d="M -200 700 
-                 L -200 420 
-                 C -200 420, 200 180, 720 180 
-                 C 1240 180, 1640 420, 1640 420 
+                 L -200 400 
+                 C -200 400, 200 160, 720 160 
+                 C 1240 160, 1640 400, 1640 400 
                  L 1640 700 
                  Z"
-              fill="url(#horizontalFade)"
+              fill="url(#edgeFade)"
             />
             
-            {/* Top edge highlight line */}
+            {/* Subtle top edge line */}
             <path
-              d="M 0 410 
-                 C 0 410, 360 185, 720 185 
-                 C 1080 185, 1440 410, 1440 410"
+              d="M 50 390 
+                 C 50 390, 380 168, 720 168 
+                 C 1060 168, 1390 390, 1390 390"
               fill="none"
-              stroke="rgba(255, 255, 255, 0.04)"
+              stroke="rgba(255, 255, 255, 0.03)"
               strokeWidth="1"
             />
           </svg>
           
-          {/* Black & White Noise Overlay */}
-          <div 
-            className="absolute inset-0 pointer-events-none"
+          {/* HIGH-QUALITY FILM GRAIN NOISE using SVG Filter */}
+          <svg 
+            className="absolute inset-0 w-full h-full pointer-events-none"
             style={{
-              clipPath: 'ellipse(100% 80% at 50% 100%)'
+              clipPath: 'ellipse(100% 85% at 50% 100%)'
             }}
           >
-            <canvas 
-              ref={noiseCanvasRef}
-              width={200}
-              height={200}
-              className="absolute inset-0 w-full h-full"
-              style={{ 
-                imageRendering: 'pixelated',
-                transform: 'scale(3)',
-                transformOrigin: 'center center',
+            <defs>
+              {/* Film Grain Noise Filter */}
+              <filter id="filmGrain" x="0%" y="0%" width="100%" height="100%">
+                {/* Generate fine turbulence noise */}
+                <feTurbulence 
+                  type="fractalNoise" 
+                  baseFrequency="0.9" 
+                  numOctaves="5" 
+                  seed="15"
+                  stitchTiles="stitch"
+                  result="noise"
+                />
+                
+                {/* Convert to pure grayscale */}
+                <feColorMatrix 
+                  type="saturate" 
+                  values="0" 
+                  in="noise"
+                  result="grayNoise"
+                />
+                
+                {/* High contrast - push to near B&W */}
+                <feComponentTransfer in="grayNoise" result="contrastNoise">
+                  <feFuncR type="linear" slope="3" intercept="-0.9"/>
+                  <feFuncG type="linear" slope="3" intercept="-0.9"/>
+                  <feFuncB type="linear" slope="3" intercept="-0.9"/>
+                  <feFuncA type="linear" slope="1" intercept="0"/>
+                </feComponentTransfer>
+                
+                {/* Slight blur to soften harsh edges (0.4px equivalent) */}
+                <feGaussianBlur 
+                  in="contrastNoise" 
+                  stdDeviation="0.4" 
+                  result="softGrain"
+                />
+              </filter>
+            </defs>
+            
+            {/* Noise overlay rectangle */}
+            <rect 
+              width="100%" 
+              height="100%" 
+              filter="url(#filmGrain)"
+              style={{
                 mixBlendMode: 'overlay',
-                opacity: 0.27
+                opacity: 0.28
               }}
             />
-          </div>
+          </svg>
         </div>
         
-        {/* Bottom fade to pure black - ensures seamless footer merge */}
+        {/* Bottom fade to pure black */}
         <div 
-          className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+          className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
           style={{
             background: 'linear-gradient(to bottom, transparent 0%, #000000 100%)'
           }}
