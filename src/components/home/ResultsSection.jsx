@@ -85,11 +85,8 @@ export default function ResultsSection() {
         return (
           <svg viewBox="0 0 40 40" className="w-full h-full">
             <circle cx="20" cy="20" r="16" fill={`${color}20`} stroke={`${color}50`} strokeWidth="1"/>
-            {/* Clock face */}
             <circle cx="20" cy="20" r="10" fill="none" stroke={`${color}40`} strokeWidth="1"/>
-            {/* Hour hand */}
             <line x1="20" y1="20" x2="20" y2="14" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
-            {/* Minute hand - animated */}
             <line 
               x1="20" 
               y1="20" 
@@ -100,7 +97,6 @@ export default function ResultsSection() {
               strokeLinecap="round"
             />
             <circle cx="20" cy="20" r="2" fill={color}/>
-            {/* Speed lines */}
             <path d="M 8 12 L 5 12" stroke={`${color}60`} strokeWidth="1" strokeLinecap="round"/>
             <path d="M 9 16 L 6 15" stroke={`${color}40`} strokeWidth="1" strokeLinecap="round"/>
           </svg>
@@ -109,7 +105,6 @@ export default function ResultsSection() {
         return (
           <svg viewBox="0 0 40 40" className="w-full h-full">
             <circle cx="20" cy="20" r="16" fill={`${color}20`} stroke={`${color}50`} strokeWidth="1"/>
-            {/* Infinity symbol animated */}
             <path 
               d={`M 12 20 C 12 ${16 - wave * 0.3} 16 ${16 - wave * 0.3} 20 20 C 24 ${24 + wave * 0.3} 28 ${24 + wave * 0.3} 28 20 C 28 ${16 - wave * 0.3} 24 ${16 - wave * 0.3} 20 20 C 16 ${24 + wave * 0.3} 12 ${24 + wave * 0.3} 12 20`}
               stroke={color}
@@ -117,7 +112,6 @@ export default function ResultsSection() {
               fill="none"
               strokeLinecap="round"
             />
-            {/* Sparkles */}
             {[0, 1, 2].map(i => (
               <circle 
                 key={i}
@@ -134,7 +128,6 @@ export default function ResultsSection() {
         return (
           <svg viewBox="0 0 40 40" className="w-full h-full">
             <circle cx="20" cy="20" r="16" fill={`${color}20`} stroke={`${color}50`} strokeWidth="1"/>
-            {/* Stacked layers growing */}
             {[0, 1, 2, 3].map(i => {
               const layerProgress = Math.min(1, Math.max(0, (animationFrame % 120) / 30 - i * 0.3));
               return (
@@ -150,7 +143,6 @@ export default function ResultsSection() {
                 />
               );
             })}
-            {/* Arrow up */}
             <path d="M 28 12 L 32 16 M 28 12 L 24 16 M 28 12 L 28 22" stroke={color} strokeWidth="1.5" fill="none" strokeLinecap="round"/>
           </svg>
         );
@@ -158,11 +150,9 @@ export default function ResultsSection() {
         return (
           <svg viewBox="0 0 40 40" className="w-full h-full">
             <circle cx="20" cy="20" r="16" fill={`${color}20`} stroke={`${color}50`} strokeWidth="1"/>
-            {/* Target/bullseye */}
             <circle cx="20" cy="20" r="10" fill="none" stroke={`${color}40`} strokeWidth="1"/>
             <circle cx="20" cy="20" r="6" fill="none" stroke={`${color}60`} strokeWidth="1"/>
             <circle cx="20" cy="20" r={2 + pulse * 1.5} fill={color}/>
-            {/* Check mark */}
             <path 
               d="M 16 20 L 19 23 L 25 16" 
               stroke={color} 
@@ -178,13 +168,11 @@ export default function ResultsSection() {
         return (
           <svg viewBox="0 0 40 40" className="w-full h-full">
             <circle cx="20" cy="20" r="16" fill={`${color}20`} stroke={`${color}50`} strokeWidth="1"/>
-            {/* Star/medal */}
             <path 
               d={`M 20 10 L 22 16 L 28 16 L 23 20 L 25 26 L 20 22 L 15 26 L 17 20 L 12 16 L 18 16 Z`}
               fill={color}
               opacity={0.8 + pulse * 0.2}
             />
-            {/* Sparkle effect */}
             <circle 
               cx={28} 
               cy={12} 
@@ -203,7 +191,7 @@ export default function ResultsSection() {
     <section id="results" className="py-16 md:py-32 px-4 md:px-6 bg-black">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl md:text-5xl font-light mb-8 md:mb-16 tracking-tight bg-gradient-to-r from-white to-[#6BB5FF] bg-clip-text text-transparent">
-          The Numbers Speak
+          The numbers speak for themselves
         </h2>
 
         {/* Stats Grid - 3x2 on desktop, 2x3 on mobile */}
@@ -245,8 +233,8 @@ export default function ResultsSection() {
                 {stat.sublabel}
               </div>
               
-              {/* Description - hidden on mobile, shown on hover on desktop */}
-              <p className="hidden md:block text-[10px] md:text-xs text-gray-500 font-light leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {/* Description - Always visible and white */}
+              <p className="text-[9px] md:text-xs text-white/80 font-light leading-relaxed">
                 {stat.description}
               </p>
               
@@ -261,25 +249,6 @@ export default function ResultsSection() {
               />
             </div>
           ))}
-        </div>
-        
-        {/* Bottom highlight bar */}
-        <div className="mt-8 md:mt-12 p-4 md:p-6 rounded-xl md:rounded-2xl bg-gradient-to-r from-[#76c4ff]/5 via-[#a855f7]/5 to-[#22c55e]/5 border border-white/[0.06]">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-center md:text-left">
-              <h4 className="text-sm md:text-lg font-light text-white mb-1">Ready to transform your visual production?</h4>
-              <p className="text-[10px] md:text-sm text-gray-500">Join brands saving 82% while creating 10x more content.</p>
-            </div>
-            <button 
-              onClick={() => {
-                const element = document.querySelector('#booking');
-                if (element) element.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="px-6 py-2.5 bg-gradient-to-r from-[#76c4ff]/20 to-[#a855f7]/20 border border-[#76c4ff]/30 rounded-full text-sm text-white font-light hover:from-[#76c4ff]/30 hover:to-[#a855f7]/30 transition-all duration-300"
-            >
-              Start Your Journey →
-            </button>
-          </div>
         </div>
       </div>
     </section>
