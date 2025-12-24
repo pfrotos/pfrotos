@@ -233,8 +233,8 @@ export default function ResultsSection() {
                 {stat.sublabel}
               </div>
               
-              {/* Description - Always visible and white */}
-              <p className="text-[9px] md:text-xs text-white/80 font-light leading-relaxed">
+              {/* Description - White and fully visible like title */}
+              <p className="text-[9px] md:text-xs text-white font-light leading-relaxed">
                 {stat.description}
               </p>
               
