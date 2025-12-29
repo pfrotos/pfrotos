@@ -16,69 +16,80 @@ export default function BookingSection() {
   return (
     <section id="booking" className="py-24 md:py-32 px-6 relative overflow-hidden bg-black min-h-[600px] flex items-center">
       
-      {/* Clean Gradient Arc Background */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* --- NEW ARC BACKGROUND START --- */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         
-        {/* Gradient Arc Container */}
-        <div 
-          className="absolute left-1/2 -translate-x-1/2 bottom-0"
-          style={{
-            width: '200%',
-            height: '100%',
-            maxWidth: '2400px'
-          }}
-        >
-          {/* Clean Blue Arc SVG */}
+        {/* Container positioned to frame the arc */}
+        <div className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 w-[120%] h-[600px] max-w-7xl">
+            
           <svg
-            className="absolute inset-0 w-full h-full"
-            viewBox="0 0 1440 700"
-            preserveAspectRatio="none"
+            className="w-full h-full"
+            viewBox="0 0 1200 600"
+            fill="none"
+            preserveAspectRatio="xMidYMid slice"
           >
             <defs>
-              {/* Soft blue glow gradient */}
-              <radialGradient id="blueArcGradient" cx="50%" cy="25%" r="80%">
-                <stop offset="0%" stopColor="#9AD7FF" stopOpacity="0.55" />
-                <stop offset="25%" stopColor="#5FB7F5" stopOpacity="0.45" />
-                <stop offset="45%" stopColor="#2D8EDB" stopOpacity="0.38" />
-                <stop offset="65%" stopColor="#145A9C" stopOpacity="0.28" />
-                <stop offset="80%" stopColor="#0A2F4F" stopOpacity="0.18" />
-                <stop offset="100%" stopColor="#000000" stopOpacity="1" />
-              </radialGradient>
+              {/* 
+                Linear Gradient (Left to Right)
+                Transparent -> Blue -> Bright Center -> Blue -> Transparent
+                This creates the "merges with black before the end" effect.
+              */}
+              <linearGradient id="arcGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#000000" stopOpacity="0" />
+                <stop offset="20%" stopColor="#0A2F4F" stopOpacity="0" />
+                <stop offset="40%" stopColor="#2D8EDB" stopOpacity="0.8" />
+                <stop offset="50%" stopColor="#9AD7FF" stopOpacity="1" />
+                <stop offset="60%" stopColor="#2D8EDB" stopOpacity="0.8" />
+                <stop offset="80%" stopColor="#0A2F4F" stopOpacity="0" />
+                <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+              </linearGradient>
+
+              {/* Blur filter for the glow effect */}
+              <filter id="glowBlur" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="35" result="coloredBlur" />
+              </filter>
             </defs>
 
-            {/* BLOOM GLOW */}
-            <ellipse
-              cx="720"
-              cy="260"
-              rx="900"
-              ry="360"
-              fill="rgba(90,170,255,0.35)"
-              style={{ filter: 'blur(140px)' }}
+            {/* 
+               Layer 1: The Outer Glow (Thick, Blurred, Faded) 
+               Using stroke-width to control thickness
+            */}
+            <path
+              d="M 100 600 Q 600 150 1100 600"
+              stroke="url(#arcGradient)"
+              strokeWidth="60"
+              fill="none"
+              style={{ filter: 'url(#glowBlur)', opacity: 0.6 }}
             />
 
-            {/* MAIN ARC SHAPE */}
+            {/* 
+               Layer 2: The Core Arc (Thinner, Brighter)
+               Gives definition to the curve
+            */}
             <path
-              d="
-                M -200 700
-                L -200 420
-                C -200 420, 240 160, 720 160
-                C 1200 160, 1640 420, 1640 420
-                L 1640 700
-                Z
-              "
-              fill="url(#blueArcGradient)"
+              d="M 100 600 Q 600 150 1100 600"
+              stroke="url(#arcGradient)"
+              strokeWidth="10"
+              fill="none"
+              style={{ filter: 'blur(10px)', opacity: 0.8 }}
+            />
+            
+            {/* 
+               Layer 3: Top Highlight Spot
+               A subtle radial glow just at the peak of the arc
+            */}
+            <ellipse 
+              cx="600" 
+              cy="350" 
+              rx="300" 
+              ry="100" 
+              fill="#2D8EDB"
+              style={{ filter: 'blur(80px)', opacity: 0.2 }}
             />
           </svg>
         </div>
-        
-        {/* Bottom fade to pure black */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
-          style={{
-            background: 'linear-gradient(to bottom, transparent 0%, #000000 100%)'
-          }}
-        />
       </div>
+      {/* --- NEW ARC BACKGROUND END --- */}
 
       {/* Content */}
       <div className="max-w-4xl mx-auto relative z-10 w-full">
