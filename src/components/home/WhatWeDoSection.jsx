@@ -3,7 +3,7 @@ import React from 'react';
 export default function WhatWeDoSection() {
   // Image paths - replace these with your actual image paths
   const images = {
-    bespokeAI: "pfrotos/public/images/image1.jpg",
+    bespokeAI: "pfrotos/public/images/image1.png",
     brandCalibrated: "/images/brand-calibrated.jpg",
     adaptiveVisual: "/images/adaptive-visual.jpg",
     feedbackRefinement: "/images/feedback-refinement.jpg",
