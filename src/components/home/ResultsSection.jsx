@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+// Add this import in your CSS file or _app.js:
+// @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 export default function ResultsSection() {
   const [animationFrame, setAnimationFrame] = useState(0);
 
@@ -78,7 +81,7 @@ export default function ResultsSection() {
               strokeLinecap="round"
             />
             <circle cx={30} cy={15 + pulse * 3} r="2.5" fill={color}/>
-            <text x="14" y="33" fill={`${color}80`} fontSize="5">↓82%</text>
+            <text x="14" y="33" fill={`${color}80`} fontSize="5" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600 }}>↓82%</text>
           </svg>
         );
       case 'speed':
@@ -188,9 +191,10 @@ export default function ResultsSection() {
   };
 
   return (
-    <section id="results" className="py-16 md:py-32 px-4 md:px-6 bg-black">
+    <section id="results" className="py-16 md:py-32 px-4 md:px-6 bg-black" style={{ fontFamily: 'Inter, sans-serif' }}>
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl md:text-5xl font-light mb-8 md:mb-16 tracking-tight bg-gradient-to-r from-white to-[#6BB5FF] bg-clip-text text-transparent">
+        {/* Main Heading - Inter Bold */}
+        <h2 className="text-2xl md:text-5xl font-bold mb-8 md:mb-16 tracking-tight bg-gradient-to-r from-white to-[#6BB5FF] bg-clip-text text-transparent">
           The numbers speak for themselves
         </h2>
 
@@ -215,26 +219,26 @@ export default function ResultsSection() {
                 {renderIcon(stat.icon, stat.color, true)}
               </div>
               
-              {/* Label */}
-              <h3 className="text-[10px] md:text-sm font-light text-white/60 mb-1 md:mb-2">
+              {/* Label - Inter Semi-Bold */}
+              <h3 className="text-[10px] md:text-sm font-semibold text-white/60 mb-1 md:mb-2 tracking-wide uppercase">
                 {stat.label}
               </h3>
               
-              {/* Big number */}
+              {/* Big number - Inter Bold */}
               <div 
-                className="text-2xl md:text-5xl font-light mb-1 md:mb-2"
+                className="text-2xl md:text-5xl font-bold mb-1 md:mb-2 tracking-tight"
                 style={{ color: stat.color }}
               >
                 {stat.number}
               </div>
               
-              {/* Sublabel */}
-              <div className="text-[10px] md:text-sm text-white/40 mb-2 md:mb-4">
+              {/* Sublabel - Inter Medium */}
+              <div className="text-[10px] md:text-sm font-medium text-white/40 mb-2 md:mb-4">
                 {stat.sublabel}
               </div>
               
-              {/* Description - White and fully visible like title */}
-              <p className="text-[9px] md:text-xs text-white font-light leading-relaxed">
+              {/* Description - Inter Regular */}
+              <p className="text-[9px] md:text-xs text-white font-normal leading-relaxed">
                 {stat.description}
               </p>
               
