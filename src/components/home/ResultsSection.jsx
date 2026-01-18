@@ -188,7 +188,8 @@ export default function ResultsSection() {
   };
 
   return (
-    <section id="results" className="py-16 md:py-32 px-4 md:px-6 bg-black">
+    // CHANGED: py-16 md:py-32  ->  pt-0 md:pt-0 pb-16 md:pb-32
+    <section id="results" className="pt-0 md:pt-0 pb-16 md:pb-32 px-4 md:px-6 bg-black">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl md:text-5xl font-light mb-8 md:mb-16 tracking-tight bg-gradient-to-r from-white to-[#6BB5FF] bg-clip-text text-transparent">
           The numbers speak for themselves

@@ -40,9 +40,11 @@ export default function FAQSection() {
   ];
 
   return (
-    <section id="faq" className="py-32 px-6 relative overflow-hidden bg-black">
+    <section id="faq" className="pt-10 pb-32 px-6 relative overflow-hidden bg-black">
       <div className="max-w-4xl mx-auto relative z-10">
-        <h2 className="text-4xl md:text-5xl font-light mb-20 tracking-tight bg-gradient-to-r from-white to-[#6BB5FF] bg-clip-text text-transparent">
+        
+        {/* Updated Gradient to match the #3a82f5 blue */}
+        <h2 className="text-4xl md:text-5xl font-light mb-20 tracking-tight bg-gradient-to-r from-white to-[#3a82f5] bg-clip-text text-transparent">
           Answers
         </h2>
 
@@ -50,29 +52,47 @@ export default function FAQSection() {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-white/[0.15] transition-all duration-300 overflow-hidden"
+              className="
+                group relative 
+                rounded-2xl 
+                bg-[#050505] 
+                border border-white/5 
+                hover:border-[#3a82f5]/20 
+                transition-all duration-500 
+                overflow-hidden
+              "
             >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
-                className="w-full p-6 flex items-center justify-between text-left"
-              >
-                <span className="text-base font-light text-white pr-4">
-                  {faq.question}
-                </span>
-                <ChevronDown
-                  className={`w-5 h-5 text-gray-500 flex-shrink-0 transition-transform duration-300 ${
-                    openIndex === index ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
+              {/* --- HORIZON GLOW EFFECT --- */}
+              {/* 1. Sharp Top Line (The Horizon) */}
+              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#3a82f5] to-transparent opacity-40 group-hover:opacity-100 transition-opacity duration-700" />
               
-              <div
-                className={`overflow-hidden transition-all duration-300 ${
-                  openIndex === index ? 'max-h-96' : 'max-h-0'
-                }`}
-              >
-                <div className="px-6 pb-6 text-sm text-gray-500 leading-relaxed font-light">
-                  {faq.answer}
+              {/* 2. Ambient Down-Light (The Glow) */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-24 bg-[#3a82f5] opacity-[0.05] blur-[30px] pointer-events-none group-hover:opacity-[0.15] transition-opacity duration-700" />
+
+              {/* Content Wrapper (z-10 to sit above glow) */}
+              <div className="relative z-10">
+                <button
+                  onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
+                  className="w-full p-6 flex items-center justify-between text-left focus:outline-none"
+                >
+                  <span className="text-base font-light text-white pr-4 group-hover:text-gray-100 transition-colors">
+                    {faq.question}
+                  </span>
+                  <ChevronDown
+                    className={`w-5 h-5 text-gray-500 flex-shrink-0 transition-transform duration-300 group-hover:text-[#3a82f5] ${
+                      openIndex === index ? 'rotate-180 text-[#3a82f5]' : ''
+                    }`}
+                  />
+                </button>
+                
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    openIndex === index ? 'max-h-96' : 'max-h-0'
+                  }`}
+                >
+                  <div className="px-6 pb-6 text-sm text-gray-400 leading-relaxed font-light">
+                    {faq.answer}
+                  </div>
                 </div>
               </div>
             </div>

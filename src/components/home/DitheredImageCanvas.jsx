@@ -251,8 +251,8 @@ export default function DitheredImageCanvas() {
       <div className="relative z-10 h-full flex items-center justify-center">
         <div className="text-center px-6">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-6 tracking-tight leading-tight">
-            We're pfrotos. We develop custom AI<br />
-            solutions for innovative companies.
+            We're pfrotos. blurring line between<br />
+            Artificial and realism for leading companies.
           </h1>
           
           <button 

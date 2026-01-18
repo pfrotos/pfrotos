@@ -3,6 +3,11 @@ import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 
+// 1. IMPORT YOUR LEGAL FILES
+import Terms from './components/legal/terms' 
+import Privacy from './components/legal/privacy' 
+import Cookies from './components/legal/cookies' // <--- ADD THIS IMPORT
+
 function App() {
   return (
     <Routes>
@@ -11,11 +16,18 @@ function App() {
           <Home />
         </Layout>
       } />
+      
       <Route path="/home" element={
         <Layout currentPageName="Home">
           <Home />
         </Layout>
       } />
+
+      {/* 2. ADD THE LEGAL ROUTES */}
+      <Route path="/terms" element={<Terms />} />
+      <Route path="/privacy" element={<Privacy />} /> 
+      <Route path="/cookies" element={<Cookies />} /> {/* <--- ADD THIS ROUTE */}
+
     </Routes>
   )
 }
