@@ -4,9 +4,9 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 
 // 1. IMPORT YOUR LEGAL FILES
-import Terms from './components/legal/terms' 
-import Privacy from './components/legal/privacy' 
-import Cookies from './components/legal/cookies' // <--- ADD THIS IMPORT
+import Terms from './components/legal/Terms.jsx' 
+import Privacy from './components/legal/Privacy.jsx' 
+import Cookies from './components/legal/Cookies.jsx' // <--- ADD THIS IMPORT
 
 function App() {
   return (
